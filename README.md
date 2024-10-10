@@ -1,24 +1,20 @@
-# RSNA 2022 Cervical Spine Fracture Detection 7th solution
-Fracture Detection ， Fracture Segmentation ， nn-UNet  
+# Solution for MICCAI AortaSeg24 challenge
+aorta branch Segmentation ， nn-UNet  
 
 ## Overview
 This solution is based on [nnUnet](https://github.com/MIC-DKFZ/batchgenerators) and [batchgenerators](https://github.com/MIC-DKFZ/batchgenerators)
 ![image](https://github.com/LSL000UD/AortaSeg24/blob/main/overview.png)
 
-In our solution,  3D segmentation methods are utilized for fracture detection task. Since host do not provide segmentation label for fracture region, we use data-augmentations and bounding box GT to generate Pseudo segmentation masks. Our final framework consist of 3 stages:
-
-- Stage 1: Segment C1-C7 using 3D-UNet
-
-- Stage 2: Segment bone fracture region using 3D-UNet
-
-- Stage 3: Predict final score using outputs from Stage 1 and Stage 2
+Following figure illustrates the comprehensive framework of our methods, which is mainly based on nnUnet2. The input CT is first processed by a coarse model to roughly
+locate the region of interest (ROI) of the aorta. Then, a fine model performs inference to obtain precise segmentation results. To enhance the robustness of
+the prediction and reduce the model’s inference time, a sliding-window method taken coarse prediction as input is employed for the fine stage.
 
 
 
 ## Requirements
-- torch==1.11.0+cu115
-- Python 3.7+
-- At least 24 GB GPU memory
+- torch==2.0.0+cu117
+- Python 3.9
+- At least 32 GB GPU memory
 
 
 ## Training
@@ -27,64 +23,37 @@ Training codes are directly modified on nn-UNet, so it may not be well organized
 
 1. Stage 1
    	
-	- Download [Competition Data](https://www.kaggle.com/competitions/rsna-2022-cervical-spine-fracture-detection/data), [TotalSegmentator Data(CC-BY-4.0)](https://zenodo.org/record/6802614#.Y2nkrHYzZPY) and [Verse2020 Data(CC-BY-4.0)](https://github.com/anjany/verse)
-	- Speicfy all path in path.py
-	- Convert competition data to NIFTI image
-	   -  cd /DatasetConversion/
-	   -  python step0_trans_DICOM_to_Nii.py
-	   -  python step1_trans_segmentation_to_nii.py
-	   -  python step2_trans_bbox_to_nii.py
-	   -  python step3_trans_public_datasets_to_nii.py
-	   -  python step4_split_train_val.py
+	- Download [Competition Data](https://aortaseg24.grand-challenge.org/)
+	- Speicfy all path in task_setting.py
 	
 	- Follow nnUnet workflow to train the model and get prediction results of stage1 
-		- cd /Training/Task_101_VertebralLocation_GeneratePseudoLabel/
-		- python nnUNet_prepare_raw_data.py
-		- python nnUNet_plan_and_preprocess.py
-		- python nnUNet_change_plan.py
-		- python nnUNet_run_training.py
-		- python inference.py
+		- cd /Tasks/Task_99991_Aorta_Coarse3mm_160x192/
+		- python step_0_nnUNet_prepare_raw_data.py
+		- python step_1_nnUNet_planning_preprocessing.py
+		- python step_3_nnUNet_change_plan.py
+		- python step_2_nnUNet_run_training.py
 
 2. Stage 2 
- (This stage using Pseudo labeling techniques. so it need 3 iterations to get final label to train the final model)
-	- Follow nnUnet workflow to train the model and get prediction results of **stage2.1**
-		- cd /Training/Task_201_FractureDetection_GeneratePseudoLabel/
-		- python nnUNet_prepare_raw_data.py
-		- python nnUNet_plan_and_preprocess.py
-		- python nnUNet_change_plan.py
-		- python nnUNet_run_training.py
-		- python inference.py
-<br/><br/><br/>
-	- Follow nnUnet workflow to train the model and get prediction results of **stage2.2**
-		- cd /Training/Task_202_FractureDetection/
-		- python nnUNet_prepare_raw_data.py
-		- python nnUNet_plan_and_preprocess.py
-		- python nnUNet_change_plan.py
-		- python nnUNet_run_training.py
-		- python inference.py
-<br/><br/><br/>
-	- Follow nnUnet workflow to train the model and get prediction results of **stage2.3**
-		- cd /Training/Task_203_FractureDetection_Real5Fold/
-		- python nnUNet_prepare_raw_data.py
-		- python nnUNet_plan_and_preprocess.py
-		- python nnUNet_change_plan.py
-		- python nnUNet_run_training.py
-		- python final_inference_CV.py
-		- python final_inference_remain.py
+ This stage using both CT and centerlines as input (for testing, using stage1's predctions to extract centerline)
+	- Follow nnUnet workflow to train the model and get prediction results of stage1 
+		- cd /Tasks/Task_99992_Aorta_Fine/
+		- python step_0_nnUNet_prepare_raw_data.py
+		- python step_1_nnUNet_planning_preprocessing.py
+		- python step_3_nnUNet_change_plan.py
+		- python step_2_nnUNet_run_training.py
 
-3. Stage 3
-	- Training stage 3 model
-	   -  cd /Task_301_PostProcessing_Overall/
-	   -  python prepare_raw_data.py
-	   -  python train.py
-
-	
+ 		 - cd /Tasks/Task_99993_Aorta_FineType2/
+		- python step_0_nnUNet_prepare_raw_data.py
+		- python step_1_nnUNet_planning_preprocessing.py
+		- python step_3_nnUNet_change_plan.py
+		- python step_2_nnUNet_run_training.py
+  - 
 ## Testing
 
-After training, you can use this notebook for inference https://www.kaggle.com/code/lsl000ud/rsna2022-7th-place-inference
+After training, you can use this notebook for inference https://drive.google.com/file/d/1CkqrrM85v1l6dEuseVa2MoBhpPyNjs9A/view?usp=drive_link
 
 ## Acknowledgement
 -Thank [nnUnet](https://github.com/MIC-DKFZ/batchgenerators), [batchgenerators](https://github.com/MIC-DKFZ/batchgenerators)
 and  RSNA 2022 Organizers
-	-https://www.kaggle.com/competitions/rsna-2022-cervical-spine-fracture-detection/overview
+	-[https://www.kaggle.com/competitions/rsna-2022-cervical-spine-fracture-detection/overview](https://aortaseg24.grand-challenge.org/)
 
