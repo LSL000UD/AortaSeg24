@@ -54,6 +54,6 @@ After training, you can use this notebook for inference https://drive.google.com
 
 ## Acknowledgement
 -Thank [nnUnet](https://github.com/MIC-DKFZ/batchgenerators), [batchgenerators](https://github.com/MIC-DKFZ/batchgenerators)
-and  RSNA 2022 Organizers
-	-[https://www.kaggle.com/competitions/rsna-2022-cervical-spine-fracture-detection/overview](https://aortaseg24.grand-challenge.org/)
+and  AortaSeg24 Organizers
+	-[https://aortaseg24.grand-challenge.org/)]
 
