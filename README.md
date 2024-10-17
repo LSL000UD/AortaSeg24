@@ -37,7 +37,7 @@ the prediction and reduce the model’s inference time, a sliding-window method 
 
 ## Code structure
 
-Training codes are directly modified on nn-UNet (Apache-2.0 license),  it may not be well organized.
+Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very short time,  it may not be well organized.
 
 - acvl_utils: nnUnet-related codes,  https://github.com/MIC-DKFZ/acvl_utils
 - batchgenerators: nnUnet-related codes,  https://github.com/MIC-DKFZ/batchgenerators
