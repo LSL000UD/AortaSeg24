@@ -60,9 +60,10 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very s
 ## Testing
 
 - After training, you can run Testing/test.py to test your own cases. 
-- You can also download our trained models for testing, however, please refer to [https://aortaseg24.grand-challenge.org/)] for the license of this models since our models are trained based on this data.
+- You can also download our [trained models](https://aortaseg24.grand-challenge.org/)  for testing. 
+- Please refer to [https://aortaseg24.grand-challenge.org/)] for the license of these models since they are trained based on this data.
 
-- A Simple usage is: (more details please refer to test.py)
+ A Simple usage is: (more details please refer to test.py)
 
     # Init predictor
     predictor = get_predictor(MODEL_DIR, device)
@@ -75,6 +76,5 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very s
 
 ## Acknowledgement
 -Thank [nnUnet](https://github.com/MIC-DKFZ/batchgenerators), [batchgenerators](https://github.com/MIC-DKFZ/batchgenerators)
-and  AortaSeg24 Organizers
-	-[https://aortaseg24.grand-challenge.org/)]
+and  [AortaSeg24 Organizers](https://aortaseg24.grand-challenge.org/)
 
