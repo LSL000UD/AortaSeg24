@@ -42,8 +42,7 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very s
 - acvl_utils: nnUnet-related codes,  https://github.com/MIC-DKFZ/acvl_utils
 - batchgenerators: nnUnet-related codes,  https://github.com/MIC-DKFZ/batchgenerators
 - dynamic_network_architectures: nnUnet-related codes,  https://github.com/MIC-DKFZ/dynamic-network-architectures
-- nnunet: old version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
-- nnunetv2: new version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
+- nnunet/nnunetv2: old/new version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
 - Training/Testing: scripts to run nnUnet training/testing
 - Utils: some usage of nnUnet, SimpleITK and scikit-image.
 
@@ -51,7 +50,7 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very s
 
 - Download [Competition Data](https://aortaseg24.grand-challenge.org/)
 	
-	All nnUnet tasks share similar training procedures
+- All nnUnet tasks share similar training procedures
 	- cd Training/Tasks/Task_XXX/
 	- python step_0_nnUNet_prepare_raw_data.py
 	- python step_1_nnUNet_planning_preprocessing.py
@@ -60,10 +59,10 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very s
 
 ## Testing
 
-After training, you can run Testing/test.py to test your own cases. 
-You can also download our trained models for testing, however, please refer to [https://aortaseg24.grand-challenge.org/)] for the license of this models since our models are trained based on this data.
+- After training, you can run Testing/test.py to test your own cases. 
+- You can also download our trained models for testing, however, please refer to [https://aortaseg24.grand-challenge.org/)] for the license of this models since our models are trained based on this data.
 
-A Simple usage is: (more details please refer to test.py)
+- A Simple usage is: (more details please refer to test.py)
 
     # Init predictor
     predictor = get_predictor(MODEL_DIR, device)
