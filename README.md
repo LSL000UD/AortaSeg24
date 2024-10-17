@@ -60,7 +60,7 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license) in a very s
 ## Testing
 
 - After training, you can run Testing/test.py to test your own cases. 
-- You can also download our [trained models]([https://aortaseg24.grand-challenge.org/](https://www.kaggle.com/datasets/lsl000ud/aortaseg24models))  for testing. 
+- You can also download our [trained models]((https://www.kaggle.com/datasets/lsl000ud/aortaseg24models)  for testing. 
 - Please refer to [https://aortaseg24.grand-challenge.org/)] for the license of these models since they are trained based on this data.
 
  A Simple usage is: (more details please refer to test.py)
