@@ -44,9 +44,8 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license),  it may no
 - dynamic_network_architectures: nnUnet-related codes,  https://github.com/MIC-DKFZ/dynamic-network-architectures
 - nnunet: old version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
 - nnunetv2: new version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
-- Training: run nnUnet training
-- Testing: run nnUnet testing
-- Utils: some usage of nnUnet, SimpleITK, scikit-image.
+- Training/Testing: scripts to run nnUnet training/testing
+- Utils: some usage of nnUnet, SimpleITK and scikit-image.
 
 ## Training
 
@@ -58,7 +57,7 @@ Training codes are directly modified on nn-UNet (Apache-2.0 license),  it may no
 	- python step_1_nnUNet_planning_preprocessing.py
 	- python step_3_nnUNet_change_plan.py
 	- python step_2_nnUNet_run_training.py
-  - 
+
 ## Testing
 
 After training, you can run Testing/test.py to test your own cases. 
