@@ -13,44 +13,66 @@ the prediction and reduce the model’s inference time, a sliding-window method 
 
 ## Requirements
 - torch==2.0.0+cu117
-- Python 3.9
+- Python 3.10
 - At least 32 GB GPU memory
 
+MedPy==0.4.0
+nibabel==3.2.1
+numpy==1.24.1
+opencv-python==4.4.0.46
+pandas==2.0.3
+pydicom==2.1.2
+scikit-image==0.21.0
+scikit-learn==0.24.1
+scipy==1.10.1
+seaborn==0.13.0
+SimpleITK==2.2.1
+sklearn==0.0
+threadpoolctl==3.1.0
+tifffile==2023.7.10
+tqdm==4.53.0
+typing-extensions==4.3.0
+connected-components-3d==3.10.5
+openpyxl==3.1.3
+
+## Code structure
+Training codes are directly modified on nn-UNet (Apache-2.0 license),  it may not be well organized.
+
+acvl_utils: nnUnet-related codes,  https://github.com/MIC-DKFZ/acvl_utils
+batchgenerators: nnUnet-related codes,  https://github.com/MIC-DKFZ/batchgenerators
+dynamic_network_architectures: nnUnet-related codes,  https://github.com/MIC-DKFZ/dynamic-network-architectures
+nnunet: old version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
+nnunetv2: new version of nnUnet,  https://github.com/MIC-DKFZ/nnUNet
+Training: run nnUnet training
+Testing: run nnUnet testing
+Utils: some usage of nnUnet, SimpleITK, scikit-image.
 
 ## Training
-
-Training codes are directly modified on nn-UNet, so it may not be well organized.
-
-1. Stage 1
-   	
-	- Download [Competition Data](https://aortaseg24.grand-challenge.org/)
-	- Speicfy all path in task_setting.py
+- Download [Competition Data](https://aortaseg24.grand-challenge.org/)
 	
-	- Follow nnUnet workflow to train the model and get prediction results of stage1 
-		- cd /Tasks/Task_99991_Aorta_Coarse3mm_160x192/
-		- python step_0_nnUNet_prepare_raw_data.py
-		- python step_1_nnUNet_planning_preprocessing.py
-		- python step_3_nnUNet_change_plan.py
-		- python step_2_nnUNet_run_training.py
-
-2. Stage 2 
- This stage using both CT and centerlines as input (for testing, using stage1's predctions to extract centerline)
-	- Follow nnUnet workflow to train the model and get prediction results of stage1 
-		- cd /Tasks/Task_99992_Aorta_Fine/
-		- python step_0_nnUNet_prepare_raw_data.py
-		- python step_1_nnUNet_planning_preprocessing.py
-		- python step_3_nnUNet_change_plan.py
-		- python step_2_nnUNet_run_training.py
-
- 		 - cd /Tasks/Task_99993_Aorta_FineType2/
-		- python step_0_nnUNet_prepare_raw_data.py
-		- python step_1_nnUNet_planning_preprocessing.py
-		- python step_3_nnUNet_change_plan.py
-		- python step_2_nnUNet_run_training.py
+  
+All nnUnet tasks share similar training procedure
+	- cd Training/Tasks/Task_XXX/
+	- python step_0_nnUNet_prepare_raw_data.py
+	- python step_1_nnUNet_planning_preprocessing.py
+	- python step_3_nnUNet_change_plan.py
+	- python step_2_nnUNet_run_training.py
   - 
 ## Testing
 
-After training, you can use this notebook for inference https://drive.google.com/file/d/1CkqrrM85v1l6dEuseVa2MoBhpPyNjs9A/view?usp=drive_link
+After training, you run Testing/test.py to test your own cases. 
+You can also download our trained models for testing, however, please refer to [https://aortaseg24.grand-challenge.org/)] for the license of this models because our models are trained on this data.
+
+A Simple usage is:
+
+    # Init predictor
+    predictor = get_predictor(MODEL_DIR, device)
+
+    # Read input
+    image_nii = sitk.ReadImage(INPUT_FILE)
+
+    # Predicting
+    pred_nii = predictor.predict_from_nii(image_nii)
 
 ## Acknowledgement
 -Thank [nnUnet](https://github.com/MIC-DKFZ/batchgenerators), [batchgenerators](https://github.com/MIC-DKFZ/batchgenerators)
